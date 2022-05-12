@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.ts",
-    "dev": "npx ts-node-dev app.ts",
+    "start": "node index.ts",
+    "dev": "npx ts-node-dev index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "npx tsc",
     "lint": "eslint . --ext .ts",
