@@ -1,13 +1,21 @@
-import express, { Application, Request, Response } from 'express';
+import dotenv from 'dotenv';
+import express, { Application } from 'express';
+
+import configExpress from './config/express';
+import connectDB from './config/database';
+import routes from './routes/routes';
+
+dotenv.config();
 
 const app: Application = express();
-const port: number = 8080;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('HomePage');
-});
+const env = process.env.NODE_ENV;
 
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Server is listing on port ${port}`);
-});
+if (env !== 'test') {
+  connectDB();
+}
+
+configExpress(app);
+routes(app);
+
+export default app;
