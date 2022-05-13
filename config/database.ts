@@ -13,11 +13,11 @@ if (env === 'test') {
 
 const connectDB = async () => {
   try {
+    console.log(URI);
     if (URI) {
       await mongoose.connect(URI);
+      console.log('MongoDB Connected');
     }
-
-    console.log('MongoDB Connected');
   } catch (error) {
     console.error(error);
     process.exit(1);

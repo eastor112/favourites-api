@@ -1,11 +1,12 @@
-import dotenv from 'dotenv';
-import express, { Application } from 'express';
+/* eslint-disable import/first */
+import * as dotenv from 'dotenv';
 
+dotenv.config({ path: `${__dirname}/.env` });
+
+import express, { Application } from 'express';
 import configExpress from './config/express';
 import connectDB from './config/database';
 import routes from './routes/routes';
-
-dotenv.config();
 
 const app: Application = express();
 

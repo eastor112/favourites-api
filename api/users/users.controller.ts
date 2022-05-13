@@ -1,25 +1,46 @@
 import { Request, Response } from 'express';
+import { createUser, getAllUsers, getOneUser } from './users.service';
+// import { IUser } from './types';
 
 export const handlerGetAllUsers = async (req: Request, res: Response) => {
-  return res.json('handlerGetAllUsers');
+  try {
+    const users = await getAllUsers();
+
+    return res.json(users);
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json(error.message);
+    }
+    return res.status(500).json('Error in handlerGetAllUsers');
+  }
 };
 
 export const handlerGetOneUser = async (req: Request, res: Response) => {
-  return res.json('handlerGetOneUser');
+  const { id } = req.params;
+
+  try {
+    const user = await getOneUser(id);
+
+    return res.json(user);
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json(error.message);
+    }
+    return res.status(500).json('Error in handlerGetOneUser');
+  }
 };
 
 export const handlerCreateUser = async (req: Request, res: Response) => {
-  return res.json('handlerCreateUser');
-};
+  const { email, password } = req.body;
 
-export const handlerCompleteUpdateUser = async (req: Request, res: Response) => {
-  return res.json('handlerCompleteUpdateUser');
-};
+  try {
+    const user = await createUser(email, password);
 
-export const handlerPartialUpdateUser = async (req: Request, res: Response) => {
-  return res.json('handlerPartialUpdateUser');
-};
-
-export const handlerDeleteUser = async (req: Request, res: Response) => {
-  return res.json('handlerDeleteUser');
+    return res.status(201).json(user);
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json(error.message);
+    }
+    return res.status(500).json('Error in handlerCreateUser');
+  }
 };

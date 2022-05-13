@@ -46,5 +46,6 @@ module.exports = {
     'arrow-spacing': [2, { before: true, after: true }],
     'import/extensions': 0,
     'no-multiple-empty-lines': [2, { max: 1 }],
+    'func-names': 0,
   },
 };
