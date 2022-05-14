@@ -20,9 +20,11 @@ const FavouritesSchema = new mongoose.Schema<IFavourites>({
     },
     description: {
       type: String,
+      default: '',
     },
     link: {
       type: String,
+      default: '',
     },
   }],
 }, {

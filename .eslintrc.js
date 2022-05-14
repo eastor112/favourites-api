@@ -47,5 +47,6 @@ module.exports = {
     'import/extensions': 0,
     'no-multiple-empty-lines': [2, { max: 1 }],
     'func-names': 0,
+    'no-underscore-dangle': 0,
   },
 };

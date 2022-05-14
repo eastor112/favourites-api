@@ -1,13 +1,17 @@
 import { Request, Response } from 'express';
 import {
+  addOneFavItem,
   createOneFav,
   getAllFav,
   getOneFav,
 } from './favourites.service';
+import { IFavouritesItem } from './types';
 
-export const handlerGetAllFav = async (req : Request, res : Response) => {
+export const handlerGetAllFav = async (req : Request | any, res : Response) => {
+  const { user } = req;
+
   try {
-    const favLists = await getAllFav();
+    const favLists = await getAllFav(user._id.toString());
 
     return res.json(favLists);
   } catch (error) {
@@ -32,11 +36,12 @@ export const handlerCreateOneFav = async (req : Request, res : Response) => {
   }
 };
 
-export const handlerGetOneFav = async (req : Request, res : Response) => {
+export const handlerGetOneFav = async (req : Request | any, res : Response) => {
   const { id } = req.params;
+  const { user } = req;
 
   try {
-    const favList = await getOneFav(id);
+    const favList = await getOneFav(id, user._id.toString());
 
     return res.json(favList);
   } catch (error) {
@@ -44,5 +49,21 @@ export const handlerGetOneFav = async (req : Request, res : Response) => {
       return res.status(500).json(error.message);
     }
     return res.status(500).json('Error in handlerGetOneFav');
+  }
+};
+
+export const handlerAddOneFavItem = async (req : Request | any, res : Response) => {
+  const { id } = req.params;
+  const { user, body } = req;
+
+  try {
+    const updatedFavList = await addOneFavItem(id, user._id.toString(), body as IFavouritesItem);
+
+    return res.json(updatedFavList);
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json(error.message);
+    }
+    return res.status(500).json('Error in handlerAddOneFavItem');
   }
 };

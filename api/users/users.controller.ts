@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { createUser, getAllUsers, getOneUser } from './users.service';
-// import { IUser } from './types';
 
 export const handlerGetAllUsers = async (req: Request, res: Response) => {
   try {

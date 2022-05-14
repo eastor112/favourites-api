@@ -23,6 +23,7 @@ const handlerLogin = async (req: Request, res: Response) => {
 
   try {
     const token = await signToken({
+      _id: user._id.toString(),
       email: user.email,
     });
 
