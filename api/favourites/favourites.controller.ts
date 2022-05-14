@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import Favourite from './favourites.model';
 import {
   addOneFavItem,
   createOneFav,
@@ -24,6 +25,15 @@ export const handlerGetAllFav = async (req : Request | any, res : Response) => {
 
 export const handlerCreateOneFav = async (req : Request, res : Response) => {
   const { body } = req;
+
+  if (!body.name || !body.userId) {
+    return res.status(400).json('Missing name or missing userId');
+  }
+  const existingFav = await Favourite.find({ name: body.name });
+
+  if (existingFav.length > 0) {
+    return res.status(400).json(`Favourite list with name: "${body.name}" already exists`);
+  }
 
   try {
     const newFavList = await createOneFav(body);

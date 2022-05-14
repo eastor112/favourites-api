@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import validateJwtMw from '../../middleware/tokenValidator';
 import {
   handlerGetAllUsers,
   handlerGetOneUser,
@@ -9,7 +8,7 @@ import {
 const router = Router();
 
 router.get('/', [], handlerGetAllUsers);
-router.get('/:id', [validateJwtMw], handlerGetOneUser);
+router.get('/:id', [], handlerGetOneUser);
 router.post('/', [], handlerCreateUser);
 
 export default router;

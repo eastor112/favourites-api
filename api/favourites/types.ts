@@ -1,4 +1,5 @@
-import { Document, Types } from 'mongoose';
+import { Request } from 'express';
+import { Document, ObjectId, Types } from 'mongoose';
 
 export interface IFavouritesItem{
   title: string;
@@ -14,4 +15,11 @@ export interface IFavourites{
 
 export interface IFavouritesModel extends IFavourites, Document{
     _id: string;
+}
+
+export interface IExtendedRequest extends Request{
+    user: {
+        _id: ObjectId;
+        email: string;
+    };
 }

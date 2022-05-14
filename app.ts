@@ -8,7 +8,7 @@ import configExpress from './config/express';
 import connectDB from './config/database';
 import routes from './routes/routes';
 
-const app: Application = express();
+const app:Application = express();
 
 const env = process.env.NODE_ENV;
 

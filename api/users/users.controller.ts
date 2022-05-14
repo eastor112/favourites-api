@@ -32,6 +32,14 @@ export const handlerGetOneUser = async (req: Request, res: Response) => {
 export const handlerCreateUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
+  if (email === undefined || password === undefined) {
+    return res.status(400).json('Missing email or password');
+  }
+
+  if (password.length < 8) {
+    return res.status(400).json('Password must be at least 8 characters long');
+  }
+
   try {
     const user = await createUser(email, password);
 
