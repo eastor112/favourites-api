@@ -30,6 +30,14 @@ const UserSchema = new mongoose.Schema<IUser>({
   timestamps: true,
 });
 
+UserSchema.methods.toJSON = function () {
+  const user = this;
+
+  const { password, __v, state, ...rest } = user.toObject();
+
+  return rest;
+};
+
 UserSchema.pre('save', async function (next) {
   const user = this;
   try {
@@ -49,5 +57,14 @@ UserSchema.pre('save', async function (next) {
     return next(new Error('Error in UserSchema.pre'));
   }
 });
+
+UserSchema.methods.comparePassword = async function (candidatePassword:string) {
+  const user = this;
+  try {
+    return bcrypt.compareSync(candidatePassword, user.password);
+  } catch (error) {
+    return error;
+  }
+};
 
 export default mongoose.model<IUser>('User', UserSchema);

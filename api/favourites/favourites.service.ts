@@ -1,16 +1,20 @@
+import Favourites from './favourites.model';
+import { IFavourites } from './types';
 
 export const getAllFav = async () => {
-  return 'hey!';
+  const favLists = await Favourites.find({});
+
+  return favLists;
 };
 
-export const createOneFav = async () => {
-  return 'hey!';
+export const createOneFav = async (data:IFavourites) => {
+  const newFavList = await Favourites.create(data);
+
+  return newFavList;
 };
 
 export const getOneFav = async (id:string) => {
-  return id;
-};
+  const favList = await Favourites.findById(id);
 
-export const deleteOneFav = async (id:string) => {
-  return id;
+  return favList;
 };
