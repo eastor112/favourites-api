@@ -1,25 +1,53 @@
 import { Request, Response } from 'express';
+import { createUser, getAllUsers, getOneUser } from './users.service';
 
 export const handlerGetAllUsers = async (req: Request, res: Response) => {
-  return res.json('handlerGetAllUsers');
+  try {
+    const users = await getAllUsers();
+
+    return res.json(users);
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json(error.message);
+    }
+    return res.status(500).json('Error in handlerGetAllUsers');
+  }
 };
 
 export const handlerGetOneUser = async (req: Request, res: Response) => {
-  return res.json('handlerGetOneUser');
+  const { id } = req.params;
+
+  try {
+    const user = await getOneUser(id);
+
+    return res.json(user);
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json(error.message);
+    }
+    return res.status(500).json('Error in handlerGetOneUser');
+  }
 };
 
 export const handlerCreateUser = async (req: Request, res: Response) => {
-  return res.json('handlerCreateUser');
-};
+  const { email, password } = req.body;
 
-export const handlerCompleteUpdateUser = async (req: Request, res: Response) => {
-  return res.json('handlerCompleteUpdateUser');
-};
+  if (email === undefined || password === undefined) {
+    return res.status(400).json('Missing email or password');
+  }
 
-export const handlerPartialUpdateUser = async (req: Request, res: Response) => {
-  return res.json('handlerPartialUpdateUser');
-};
+  if (password.length < 8) {
+    return res.status(400).json('Password must be at least 8 characters long');
+  }
 
-export const handlerDeleteUser = async (req: Request, res: Response) => {
-  return res.json('handlerDeleteUser');
+  try {
+    const user = await createUser(email, password);
+
+    return res.status(201).json(user);
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json(error.message);
+    }
+    return res.status(500).json('Error in handlerCreateUser');
+  }
 };
